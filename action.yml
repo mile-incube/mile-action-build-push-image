@@ -30,6 +30,16 @@ inputs:
   gitSubmodules:
     default: false
     type: string
+  #secrets
+  az-creds:
+    description: 'Use this azure credentials instead to push'
+    required: false
+  acr:
+    description: 'acr'
+    required: false
+  gitToken:
+    description: 'GitHub Access Token for pulling'
+    required: false
 outputs:
   image-name:
     description: "The image name"
@@ -40,16 +50,6 @@ outputs:
   image-digest:
     description: "The image digest"
     value: ${{ steps.build-and-push.outputs.digest }}
-secrets:
-  az-creds:
-    description: 'Use this azure credentials instead to push'
-    required: false
-  acr:
-    description: 'acr'
-    required: false
-  gitToken:
-    description: 'GitHub Access Token for pulling'
-    required: false
 runs:
   using: "composite"
   steps:
