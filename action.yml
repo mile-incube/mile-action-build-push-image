@@ -57,7 +57,7 @@ runs:
       uses: actions/checkout@v3
       with:
         submodules: ${{ inputs.gitSubmodules }}
-        token: ${{ secrets.gitToken || github.token }}
+        token: ${{ inputs.gitToken || github.token }}
 
     - name: Download artifacts
       if: ${{ inputs.artifact }}
@@ -83,10 +83,10 @@ runs:
     - name: Get Registry
       if: github.event_name != 'pull_request'
       run: |
-        if [ "${{ secrets.acr }}" == "" ]; then
+        if [ "${{ inputs.acr }}" == "" ]; then
           echo "REGISTRY=ghcr.io" >> $GITHUB_ENV
         else
-          echo "REGISTRY=${{ secrets.acr }}" >> $GITHUB_ENV
+          echo "REGISTRY=${{ inputs.acr }}" >> $GITHUB_ENV
         fi
 
     - name: Log into registry ghcr.io
@@ -95,13 +95,13 @@ runs:
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+        password: ${{ inputs.GITHUB_TOKEN }}
 
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
       if: github.event_name != 'pull_request' && endsWith(env.REGISTRY, 'azurecr.io')
       with:
-        creds: ${{ secrets.az-creds }}
+        creds: ${{ inputs.az-creds }}
 
     - name: Get Registry Credentials
       if: github.event_name != 'pull_request' && endsWith(env.REGISTRY, 'azurecr.io')
