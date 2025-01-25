@@ -82,7 +82,7 @@ runs:
 
     - name: Get Registry
       if: github.event_name != 'pull_request'
-      shell: batch
+      shell: bash
       run: |
         if [ "${{ inputs.acr }}" == "" ]; then
           echo "REGISTRY=ghcr.io" >> $GITHUB_ENV
@@ -107,7 +107,7 @@ runs:
     - name: Get Registry Credentials
       if: github.event_name != 'pull_request' && endsWith(env.REGISTRY, 'azurecr.io')
       id: getregistrycreds
-      shell: batch
+      shell: bash
       run: |
         password=$(az acr login --name ${{ env.REGISTRY }} --expose-token --output tsv --query accessToken)
         echo "loginName=00000000-0000-0000-0000-000000000000" >> $GITHUB_OUTPUT
@@ -124,7 +124,7 @@ runs:
     - name: Get additional Image Name
       if: github.event_name != 'pull_request' && endsWith(env.REGISTRY, 'azurecr.io')
       id: additionalImage
-      shell: batch
+      shell: bash
       run: |
         echo "imageName=${{ env.REGISTRY }}/${{ github.repository }}/${{ inputs.image-name }}" >> $GITHUB_OUTPUT
 
