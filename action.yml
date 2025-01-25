@@ -122,7 +122,6 @@ runs:
         password: ${{ steps.getregistrycreds.outputs.password }}
 
     - name: Get additional Image Name
-      if: github.event_name != 'pull_request' && endsWith(env.REGISTRY, 'azurecr.io')
       id: additionalImage
       shell: bash
       run: |
