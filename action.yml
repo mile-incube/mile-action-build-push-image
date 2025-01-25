@@ -135,7 +135,6 @@ runs:
       uses: docker/metadata-action@v4
       with:
         images: |
-          ghcr.io/${{ github.repository }}/${{ inputs.image-name }}
           ${{ steps.additionalImage.outputs.imageName }}
         tags: |
           type=raw,value=${{ inputs.env }}
