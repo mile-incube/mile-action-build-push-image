@@ -125,7 +125,11 @@ runs:
       id: additionalImage
       shell: bash
       run: |
-        echo "imageName=${{ env.REGISTRY }}/${{ github.repository }}/${{ inputs.image-name }}" >> $GITHUB_OUTPUT
+        if [ -z "${{ env.REGISTRY }}" ]; then
+          echo "imageName=ghcr.io/${{ github.repository }}/${{ inputs.image-name }}" >> $GITHUB_OUTPUT
+        else
+          echo "imageName=${{ env.REGISTRY }}/${{ github.repository }}/${{ inputs.image-name }}" >> $GITHUB_OUTPUT
+        fi
 
     # Extract metadata (tags, labels) for Docker
     # https://github.com/docker/metadata-action
